@@ -1,0 +1,3 @@
+C:/Users/varsh/UCR/CLASSES/CG/Project1/proj-rt/out/build/x64-Debug/CMakeFiles/ray_tracer.dir
+C:/Users/varsh/UCR/CLASSES/CG/Project1/proj-rt/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/varsh/UCR/CLASSES/CG/Project1/proj-rt/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
