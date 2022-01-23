@@ -8,60 +8,48 @@ vec3 Phong_Shader::
 Shade_Surface(const Ray& ray,const vec3& intersection_point,
     const vec3& normal,int recursion_depth) const
 {
-    vec3 color;
-    // Calculate the ambient color.
-    // color = R_a * L_a
-    // R_a = color of the object
-    // L_a = color / intensity of the ambient lighting around the world.
-    color = color_ambient * world.ambient_color * world.ambient_intensity;
 
-    // Loop through all of the lights in the scene, calculate shadows, diffuse, and specular.
-    for (unsigned int i = 0; i < world.lights.size(); i++)
+    // reference : https://learnopengl.com/Lighting/Basic-Lighting
+    vec3 color;
+   // only one ambient 
+    vec3 ambient = world.ambient_color * world.ambient_intensity;
+    color = color_ambient * ambient;
+
+    // Calculating diffuse, specular and shadows for each light
+    for (int i = 0; i < world.lights.size(); i++)
     {
         vec3 light = world.lights.at(i)->position - intersection_point;
-        vec3 color_light = (world.lights.at(i)->Emitted_Light(light.normalized())) / (light.magnitude_squared());
+        vec3 light_norm = light.normalized();
+        vec3 color_light = (world.lights.at(i)->Emitted_Light(light_norm)) / (light.magnitude_squared());
 
-        // If shadows are enabled...
         if (world.enable_shadows)
         {
-            Ray tempRay;
-            Hit tempHit;
+            // shadow ray casted from the intersection to the light source to see if its blocked by some obj inbetween
+            Ray shadowRay;
+            Hit shadowHit;
 
-            tempRay.direction = light.normalized();
-            tempRay.endpoint = intersection_point;
+            shadowRay.direction = light_norm;
+            shadowRay.endpoint = intersection_point;
 
-            tempHit = world.Closest_Intersection(tempRay);
-            if (tempHit.object != NULL)
+            shadowHit = world.Closest_Intersection(shadowRay);
+            if (shadowHit.object != nullptr)
             {
-                // If something is blocking the light ray, just leave it as ambient light.
-                if (tempHit.dist < light.magnitude_squared())
-                {
+                if (shadowHit.dist < light.magnitude_squared())
                     continue;
-                }
             }
         }
 
-        // Calculate the diffuse component.
-        // Diffuse = R_d * L_d * max( dot(normal, light), 0)
-        // R_d = reflected color off the object (essentially, the color of the object)
-        // L_d = color/intensity of the light hitting the object
-        double diffuse_intensity = std::max(0.0, dot(normal, light.normalized()));
+        double diffuse_intensity = std::max(dot(normal, light_norm), 0.0);
         vec3 diffuse = color_diffuse * diffuse_intensity * color_light;
 
-        // Calculate specular component.
-        // Specular = R_s * L_s * max(v * reflection, 0) ^ alpha
-        // R_s = reflected color of the 'shiny' spot
-        // L_s = color / intensity of the light hitting the object
-        // reflecton = reflection vector of the light
-        // alpha = some specular constant, the higher alpha is the more 'shiny' the dot is
-        vec3 reflection_vector = (2 * dot(light.normalized(), normal) * normal) - light.normalized();
-        vec3 v = ray.direction.normalized() * -1;
-        double specular_intensity = pow(std::max(dot(reflection_vector, v), 0.0), specular_power);
+        // require from light to intersection, so negating
+        vec3 u = ray.direction.normalized() * -1;
+        vec3 reflectDir = (2 * dot(light_norm, normal) * normal) - light_norm;
+        double specular_intensity = pow(std::max(dot(reflectDir, u), 0.0), specular_power);
         vec3 specular = color_specular * specular_intensity * color_light;
 
 
-        // Calculate the final color.
-        // color = ambient + diffuse + specular
+        // final color = combination of ambient diffuse and specular
         color = color + diffuse + specular;
     }
     return color;

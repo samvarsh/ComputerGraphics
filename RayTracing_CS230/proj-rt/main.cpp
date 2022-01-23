@@ -48,6 +48,8 @@ bool debug_pixel=false;
 // This can be used to quickly disable the hierarchy for testing purposes.
 // Though this is not required, it is highly recommended that you implement
 // this, as it will make debugging your hierarchy much easier.
+
+// Reference: scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering
 bool disable_hierarchy=false;
 
 void Usage(const char* exec)

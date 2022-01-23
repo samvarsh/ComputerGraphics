@@ -5,29 +5,23 @@
 Hit Sphere::Intersection(const Ray& ray, int part) const
 {
     Hit intersection = { 0, 0, 0 };
-    vec3 e = ray.endpoint - center;
+    vec3 L = ray.endpoint - center;
 
-    double b = dot((ray.direction + ray.direction), e);
-    double c = dot(e, e) - (radius * radius);
+    double b = dot((ray.direction + ray.direction), L);
+    double c = dot(L, L) - (radius * radius);
 
-    double discriminant = (b * b) - (4 * c);
+    double disc = (b * b) - (4 * c);
 
-    if (discriminant > 0)
+    if (disc > 0)
     {
-        // There's a hit! Find where...
+        double r1 = (-b + sqrt(disc)) / 2;
+        double r2 = (-b - sqrt(disc)) / 2;
 
-        double pos_root = (-b + sqrt(discriminant)) / 2; // a = 1
-        double neg_root = (-b - sqrt(discriminant)) / 2;
-
-        if (pos_root > 0)
+        if (r1 > 0 && r2 > 0)
         {
-            if (neg_root > 0)
-            {
-                // Ray intersects in two spots, return the first!
                 intersection.object = this;
-                intersection.dist = neg_root;
+                intersection.dist = r2;
                 intersection.part = part;
-            }
         }
     }
 
@@ -49,3 +43,5 @@ Box Sphere::Bounding_Box(int part) const
     return box;
 }
 
+// ref : https://link.springer.com/content/pdf/10.1007%2F978-1-4842-4427-2_7.pdf
+// ref : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection

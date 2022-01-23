@@ -36,8 +36,7 @@ Hit Render_World::Closest_Intersection(const Ray& ray)
 // set up the initial view ray and call
 void Render_World::Render_Pixel(const ivec2& pixel_index)
 {
-    // set up the initial view ray here
-    vec3 e = camera.position; // e - eye position
+    vec3 e = camera.position; 
     vec3 u = camera.World_Position(pixel_index) - camera.position;
 
     Ray ray;
