@@ -22,12 +22,12 @@ Render_World::~Render_World()
 // to ensure that hit.dist>=small_t.
 Hit Render_World::Closest_Intersection(const Ray& ray)
 {
-    double min = std::numeric_limits<T>::max();
-    Hit closest_obj = { nullptr, min, 0 };
-    for (int i = 0; i < objects.size(); i++)
+    double min = std::numeric_limits<double>::max();
+    Hit closest_obj = { 0, 0, 0 };
+    for (unsigned int i = 0; i < objects.size(); i++)
     {
-        Hit intersectionInfo = objects[i]->Intersection(ray, small_t);
-        if (intersectionInfo.dist < min)
+        Hit intersectionInfo = objects[i]->Intersection(ray, (int) small_t);
+        if ((intersectionInfo.dist < min)&& (intersectionInfo.dist > small_t))
             closest_obj = intersectionInfo;
     }
     return closest_obj;
@@ -61,11 +61,11 @@ void Render_World::Render()
 // or the background color if there is no object intersection
 vec3 Render_World::Cast_Ray(const Ray& ray,int recursion_depth)
 {
-    vec3 color;
+    vec3 color = { 0,0,0 };
     // determine the color here
     // find the closest intersection
     Hit closestInt = Closest_Intersection(ray);
-    if (closestInt == NULL)
+    if (closestInt.object == nullptr)
     {
         // background shader
         color = background_shader->Shade_Surface(ray, { 0,0,0 }, { 0,0,0 }, recursion_depth);
