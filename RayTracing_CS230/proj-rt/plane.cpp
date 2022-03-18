@@ -4,13 +4,27 @@
 #include <cfloat>
 #include <limits>
 
-// Intersect with the half space defined by the plane.  The plane's normal
-// points outside.  If the ray starts on the "inside" side of the plane, be sure
-// to record a hit with t=0 as the first entry in hits.
+
 Hit Plane::Intersection(const Ray& ray, int part) const
 {
-    TODO;
-    return {0,0,0};
+    Hit intersection = { 0, 0, 0 };
+
+    vec3 x = x1 - ray.endpoint;
+    double p = dot(x, normal);
+    double q = dot(ray.direction, normal);
+
+    if (q != 0) 
+    {
+        double ans = p / q;
+        if (ans > 0) 
+        {
+            intersection.object = this;
+            intersection.dist = ans;
+            intersection.part = part;
+        }
+    }
+
+    return intersection;
 }
 
 vec3 Plane::Normal(const vec3& point, int part) const
