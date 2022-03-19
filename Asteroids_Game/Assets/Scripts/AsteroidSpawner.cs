@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour
@@ -15,6 +16,7 @@ public class AsteroidSpawner : MonoBehaviour
     // To spawn asterroids at a regular rate
     private void Start()
     {
+        Debug.Log(this.spawnRate);
         InvokeRepeating(nameof(Spawn), this.spawnRate, this.spawnRate); //called once every spawn rate - Spawn()
     }
 
@@ -33,4 +35,10 @@ public class AsteroidSpawner : MonoBehaviour
             asteroid.SetTrajectory(rotation * -spawnDirection);
         }
     }
+
+    public void DecreaseSpawnRate()
+    {
+        this.spawnRate = 0.5f;
+    }
+
 }

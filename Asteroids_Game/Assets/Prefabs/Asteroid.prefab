@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4690819603600214882}
   m_Layer: 8
   m_Name: Asteroid
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cf6fb4297e0c6d646a2c231deb7a7681, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9dd567ca367b83549a2ca020d12d439f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -145,8 +145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: cf6fb4297e0c6d646a2c231deb7a7681, type: 3}
-  - {fileID: 21300000, guid: 106e22e29f5b74a49b19ae726b52d2fa, type: 3}
+  - {fileID: 21300000, guid: 9dd567ca367b83549a2ca020d12d439f, type: 3}
+  - {fileID: 21300000, guid: e14a1c4c89a0cb844b655f7fdd37593a, type: 3}
+  - {fileID: 21300000, guid: 3553ae0b338be1245bd344587472d36a, type: 3}
+  - {fileID: 21300000, guid: 4ba9f110f3325d94080b4110951f9b80, type: 3}
   size: 1
   minSize: 0.5
   maxSize: 1.5

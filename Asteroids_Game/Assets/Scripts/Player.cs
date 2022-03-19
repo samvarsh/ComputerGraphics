@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>(); // it ll look in the same component
     }
 
+
+
     // Update is called once per frame - for every single frame our game is running
     private void Update()
     {
@@ -52,5 +54,19 @@ public class Player : MonoBehaviour
         // each time the player shoots we instantiate a new bullet 
         Bullet bullet = Instantiate(this.bulletPrefab, this.transform.position, this.transform.rotation);
         bullet.Project(this.transform.up);
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Asteroid")
+        {
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = 0.0f;
+
+            this.gameObject.SetActive(false);
+
+            FindObjectOfType<GameManager>().PlayerDied();
+            // this is a very slow function. Not the right one to use
+        }
     }
 }
